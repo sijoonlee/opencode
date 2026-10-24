@@ -275,6 +275,7 @@
         "@opencode-ai/pty": "0.3.1",
         "@opencode/ai": "workspace:*",
         "@opencode/codemode": "workspace:*",
+        "@opencode/codex-executor": "workspace:*",
         "@opencode/plugin": "workspace:*",
         "@opencode/plugin-browser": "workspace:*",
         "@opencode/schema": "workspace:*",
@@ -969,6 +970,14 @@
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
         "wrangler": "4.110.0",
+      },
+    },
+    "services/codex-executor": {
+      "name": "@opencode/codex-executor",
+      "devDependencies": {
+        "@tsconfig/node22": "catalog:",
+        "@types/bun": "catalog:",
+        "@typescript/native": "catalog:",
       },
     },
     "services/files": {
@@ -2007,6 +2016,8 @@
     "@opencode/client": ["@opencode/client@workspace:packages/client"],
 
     "@opencode/codemode": ["@opencode/codemode@workspace:packages/codemode"],
+
+    "@opencode/codex-executor": ["@opencode/codex-executor@workspace:services/codex-executor"],
 
     "@opencode/console-app": ["@opencode/console-app@workspace:packages/console/app"],
 

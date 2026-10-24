@@ -65,7 +65,7 @@ export async function executeCodex(
     return {
       status,
       exitCode,
-      ...(child.signalCode ? { signal: child.signalCode } : {}),
+      ...(child.signalCode ? { signal: String(child.signalCode) } : {}),
       timedOut: state.termination === "timeout",
       ...(finalMessage ? { finalMessage } : {}),
       outputBytes: state.outputBytes,
