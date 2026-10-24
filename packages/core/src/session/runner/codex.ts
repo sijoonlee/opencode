@@ -136,6 +136,6 @@ function processError(result: CodexProcessResult) {
     message:
       result.timedOut
         ? "Codex execution timed out"
-        : `Codex execution failed with ${result.signal ? `signal ${result.signal}` : `exit code ${result.exitCode ?? "unknown"}`}`,
+        : `Codex execution failed with ${result.signal ? `signal ${result.signal}` : `exit code ${result.exitCode ?? "unknown"}`}${result.stderr ? `: ${result.stderr}` : ""}`,
   }
 }
