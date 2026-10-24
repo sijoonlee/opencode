@@ -38,6 +38,7 @@ export async function executeCodex(
   const state = {
     outputBytes: 0,
     sequence: 0,
+    stderr: [] as string[],
     termination: undefined as "cancelled" | "timeout" | undefined,
   }
   const timeout =
@@ -65,9 +66,10 @@ export async function executeCodex(
     return {
       status,
       exitCode,
-      ...(child.signalCode ? { signal: child.signalCode } : {}),
+      ...(child.signalCode ? { signal: String(child.signalCode) } : {}),
       timedOut: state.termination === "timeout",
       ...(finalMessage ? { finalMessage } : {}),
+      ...(state.stderr.length > 0 ? { stderr: state.stderr.join("\n") } : {}),
       outputBytes: state.outputBytes,
     }
   } catch (error) {
@@ -90,9 +92,7 @@ export function buildCodexCommand(
     options.binary ?? "codex",
     "exec",
     "--json",
-    "--sandbox",
-    request.sandbox,
-    ...(options.approveForMe ? ["--ask-for-approval", "never"] : []),
+    ...(options.approveForMe ? ["--approve-for-me"] : ["--sandbox", request.sandbox]),
     "--output-last-message",
     finalMessagePath,
     "-",
@@ -107,7 +107,12 @@ function mergeEnvironment(environment: Readonly<Record<string, string | undefine
 async function readLines(
   stream: ReadableStream<Uint8Array>,
   logStream: ExecutionLog["stream"],
-  state: { outputBytes: number; sequence: number; termination: "cancelled" | "timeout" | undefined },
+  state: {
+    outputBytes: number
+    sequence: number
+    stderr: string[]
+    termination: "cancelled" | "timeout" | undefined
+  },
   maxOutputBytes: number,
   options: CodexExecutorOptions,
 ) {
@@ -142,6 +147,7 @@ async function readLines(
       text: line,
       createdAt: Date.now(),
     }
+    if (logStream === "stderr") state.stderr.push(line)
     await options.onLog?.(log)
     if (logStream !== "stdout" || line.length === 0) return
     try {

@@ -109,6 +109,7 @@
     "@modelcontextprotocol/core": "2.3.1",
     "@opencode-ai/pty": "0.3.1",
     "@opencode/ai": "workspace:*",
+    "@opencode/codex-executor": "workspace:*",
     "@opencode/codemode": "workspace:*",
     "@opencode/plugin": "workspace:*",
     "@opencode/plugin-browser": "workspace:*",

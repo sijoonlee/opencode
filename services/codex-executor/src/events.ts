@@ -80,7 +80,8 @@ export function mapProcessResult(
 }
 
 function eventObject(value: JSONValue) {
-  return value !== null && typeof value === "object" && !Array.isArray(value) ? value : undefined
+  if (value === null || typeof value !== "object" || Array.isArray(value)) return undefined
+  return value as { readonly [key: string]: JSONValue }
 }
 
 function eventKind(type: JSONValue | undefined): CodexEventMapping["kind"] {
@@ -95,7 +96,7 @@ function eventKind(type: JSONValue | undefined): CodexEventMapping["kind"] {
 
 function extractAgentMessage(value: JSONValue) {
   const object = eventObject(value)
-  const item = eventObject(object?.item)
+  const item = eventObject(object?.item ?? null)
   if (item?.type !== "agent_message") return undefined
   if (typeof item.text === "string") return item.text
   if (typeof object?.text === "string") return object.text

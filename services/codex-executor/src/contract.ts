@@ -153,6 +153,7 @@ export type CodexProcessResult = {
   readonly signal?: string
   readonly timedOut: boolean
   readonly finalMessage?: string
+  readonly stderr?: string
   readonly outputBytes: number
 }
 
