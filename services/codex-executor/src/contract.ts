@@ -85,6 +85,13 @@ export type ExecutionEvent =
       readonly log: ExecutionLog
     }
   | {
+      readonly type: "execution.raw"
+      readonly jobID: string
+      readonly sequence: number
+      readonly event: JSONValue
+      readonly createdAt: number
+    }
+  | {
       readonly type: "execution.message"
       readonly jobID: string
       readonly message: string
