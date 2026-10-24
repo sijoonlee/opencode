@@ -28,3 +28,16 @@ POST /executions/:jobID/cancel
 ```
 
 The implementation should use durable storage and isolate each Codex invocation in its own workspace or container.
+
+## OpenCode integration
+
+OpenCode can opt into the executor for its existing session runner with:
+
+```text
+OPENCODE_EXECUTOR=codex
+OPENCODE_CODEX_BIN=codex
+OPENCODE_CODEX_SANDBOX=workspace-write
+OPENCODE_CODEX_APPROVAL=never
+```
+
+This runs one Codex process for each admitted OpenCode prompt and keeps the normal OpenCode backend as the default. The Codex CLI must be installed and authenticated in the OpenCode server environment.
