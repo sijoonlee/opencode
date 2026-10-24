@@ -2,7 +2,7 @@
 
 The planned asynchronous execution service for running Codex headless jobs on behalf of OpenCode.
 
-Phase 2 adds the process runner. It starts Codex with `codex exec --json`, captures stdout/stderr, supports cancellation and timeouts, and reads the final message. It does not expose an HTTP server or durable job store yet.
+Phase 3 adds event mapping. It preserves raw Codex JSONL events, extracts final agent messages, and maps process outcomes to OpenCode session execution lifecycle events. It does not expose an HTTP server or durable job store yet.
 
 ## Contract
 
@@ -16,6 +16,7 @@ The contract in [`src/contract.ts`](./src/contract.ts) defines:
 - completion, failure, and cancellation events;
 - status helpers that distinguish process completion from verified success.
 - a process runner with argv construction, output limits, timeout handling, and cancellation.
+- an event adapter that preserves raw Codex events and maps lifecycle outcomes to OpenCode events.
 
 The intended service API is:
 
