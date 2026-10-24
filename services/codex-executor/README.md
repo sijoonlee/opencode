@@ -2,7 +2,7 @@
 
 The planned asynchronous execution service for running Codex headless jobs on behalf of OpenCode.
 
-Phase 1 defines the service contract only. It does not start Codex processes or expose an HTTP server yet.
+Phase 2 adds the process runner. It starts Codex with `codex exec --json`, captures stdout/stderr, supports cancellation and timeouts, and reads the final message. It does not expose an HTTP server or durable job store yet.
 
 ## Contract
 
@@ -15,6 +15,7 @@ The contract in [`src/contract.ts`](./src/contract.ts) defines:
 - independent verification results;
 - completion, failure, and cancellation events;
 - status helpers that distinguish process completion from verified success.
+- a process runner with argv construction, output limits, timeout handling, and cancellation.
 
 The intended service API is:
 

@@ -140,6 +140,15 @@ export type ListExecutionEventsResponse = {
   readonly nextSequence?: number
 }
 
+export type CodexProcessResult = {
+  readonly status: Extract<ExecutionStatus, "completed" | "failed" | "cancelled">
+  readonly exitCode: number | null
+  readonly signal?: string
+  readonly timedOut: boolean
+  readonly finalMessage?: string
+  readonly outputBytes: number
+}
+
 export function isTerminalStatus(status: ExecutionStatus) {
   return status === "completed" || status === "failed" || status === "cancelled" || status === "needs_review"
 }

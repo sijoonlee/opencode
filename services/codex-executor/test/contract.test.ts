@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { isSuccessfulExecution, isTerminalStatus, type ExecutionRecord } from "../src/contract"
+import { buildCodexCommand } from "../src/executor"
 
 const record = (overrides: Partial<ExecutionRecord> = {}): ExecutionRecord => ({
   jobID: "job_1",
@@ -26,5 +27,26 @@ describe("codex executor contract", () => {
     expect(isSuccessfulExecution(record())).toBe(true)
     expect(isSuccessfulExecution(record({ verification: { status: "not_configured" } }))).toBe(false)
     expect(isSuccessfulExecution(record({ status: "needs_review" }))).toBe(false)
+  })
+
+  test("builds an argv array without a shell command", () => {
+    expect(
+      buildCodexCommand(
+        { sandbox: "workspace-write" },
+        { binary: "/usr/local/bin/codex", approveForMe: true },
+        "/tmp/final message.txt",
+      ),
+    ).toEqual([
+      "/usr/local/bin/codex",
+      "exec",
+      "--json",
+      "--sandbox",
+      "workspace-write",
+      "--ask-for-approval",
+      "never",
+      "--output-last-message",
+      "/tmp/final message.txt",
+      "-",
+    ])
   })
 })
